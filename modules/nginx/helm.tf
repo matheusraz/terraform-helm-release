@@ -1,5 +1,5 @@
 data "template_file" "this" {
-  template = file("./raz/template.tpl")
+  template = file("${path.module}/chart/template.tpl")
   vars = {
     deployment-name = var.deployment-name
     replicas = var.replicas
@@ -7,9 +7,9 @@ data "template_file" "this" {
   }
 }
 
-resource "helm_release" "example" {
+resource "helm_release" "deploy_helm" {
   name       = var.chart-name
-  chart      = "./raz"
+  chart      = "${path.module}/chart"
   namespace  = var.namespace
   values     = [data.template_file.this.rendered]
 }
